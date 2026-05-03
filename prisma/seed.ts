@@ -8,6 +8,11 @@ async function main() {
       { name: 'Aditi Sharma', party: 'Independent', education: 'PhD Economics', assets: '₹2.4 Cr', cases: 0, state: 'Maharashtra' },
       { name: 'Rajesh Kumar', party: 'National Party', education: 'MA Law', assets: '₹12.5 Cr', cases: 1, state: 'Maharashtra' },
       { name: 'Sarah Joseph', party: 'Social Alliance', education: 'Social Work', assets: '₹85 Lakh', cases: 0, state: 'Delhi' },
+      { name: 'Vijay Nair', party: 'Regional Front', education: 'B.Tech', assets: '₹1.2 Cr', cases: 0, state: 'Kerala' },
+      { name: 'Priya Menon', party: 'National Party', education: 'MBBS', assets: '₹3.5 Cr', cases: 0, state: 'Kerala' },
+      { name: 'Amit Yadav', party: 'Janata Party', education: 'BA', assets: '₹50 Lakh', cases: 2, state: 'Bihar' },
+      { name: 'Suresh Singh', party: 'Development First', education: 'LLB', assets: '₹8 Cr', cases: 1, state: 'Uttar Pradesh' },
+      { name: 'Mamta Banerjee (Mock)', party: 'Trinamool', education: 'MA Law', assets: '₹15 Cr', cases: 0, state: 'West Bengal' },
     ]
   })
 

@@ -61,7 +61,23 @@ export const CandidateComparison: React.FC = () => {
       </header>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
-        {candidates.map((candidate, idx) => (
+        {candidates.length === 0 ? (
+          <div className="glass" style={{ 
+            gridColumn: '1 / -1', 
+            padding: '60px', 
+            textAlign: 'center', 
+            borderRadius: 'var(--radius-xl)',
+            color: 'var(--text-secondary)'
+          }}>
+            <Users size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' }}>
+              No Candidates Found
+            </h3>
+            <p>We don't have candidate data for <strong>{userContext.location.state}</strong> yet. 
+            Try switching to <strong>Maharashtra</strong> or <strong>Kerala</strong> in your profile to see how this works!</p>
+          </div>
+        ) : (
+          candidates.map((candidate, idx) => (
           <motion.div
             key={idx}
             initial={{ opacity: 0, y: 20 }}
@@ -138,7 +154,8 @@ export const CandidateComparison: React.FC = () => {
               View Manifesto
             </button>
           </motion.div>
-        ))}
+        ))
+      )}
       </div>
     </div>
   );
