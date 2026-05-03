@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  state     String
+  city      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  journeySteps JourneyStep[]
+}
+
+model JourneyStep {
+  id          String   @id @default(uuid())
+  stepId      String
+  title       String
+  description String
+  status      String   @default("pending") // pending, active, completed
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, stepId])
+}
+
+model Candidate {
+  id        String   @id @default(uuid())
+  name      String
+  party     String
+  education String
+  assets    String
+  cases     Int
+  state     String
+  createdAt DateTime @default(now())
+}
+
+model MisinformationFact {
+  id          String   @id @default(uuid())
+  keywords    String   // Comma separated keywords
+  verdict     String
+  explanation String
+  confidence  Float
+  createdAt   DateTime @default(now())
+}
