@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldAlert, MapPin, Calendar, ExternalLink, Info, Clock, CheckCircle2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
 import { ELECTION_DATES } from '../../constants';
 import { GoogleCalendarService, GoogleMapsService } from '../../services/GoogleServices';
