@@ -23,7 +23,7 @@ class GoogleCloudService {
    * Simulates Google Cloud Vision API call to extract data from a Voter ID image.
    * Uses cloud-based OCR models.
    */
-  async verifyVoterID(base64Image: string): Promise<VisionResult> {
+  async verifyVoterID(_base64Image: string): Promise<VisionResult> {
     console.log('Sending image to Google Cloud Vision API...');
     // Simulated GCP Vision response
     return new Promise((resolve) => {

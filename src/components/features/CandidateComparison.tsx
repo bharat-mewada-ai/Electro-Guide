@@ -22,7 +22,7 @@ export const CandidateComparison: React.FC = () => {
     const loadCandidates = async () => {
       try {
         setLoading(true);
-        const data = await fetchWithAuth(`/candidates?state=${userContext.location.state}`);
+        const data = await fetchWithAuth<Candidate[]>(`/candidates?state=${userContext.location.state}`);
         setCandidates(data);
         setError(null);
       } catch {

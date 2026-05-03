@@ -16,7 +16,7 @@ interface IntentResult {
  */
 export const detectIntent = async (input: string): Promise<IntentResult> => {
   try {
-    const res = await fetchWithAuth('/chat/message', {
+    const res = await fetchWithAuth<IntentResult>('/chat/message', {
       method: 'POST',
       body: JSON.stringify({ message: input })
     });

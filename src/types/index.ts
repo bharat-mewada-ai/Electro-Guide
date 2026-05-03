@@ -1,4 +1,4 @@
-import { Intent } from './intent';
+import type { Intent } from './intent';
 
 export * from './intent';
 

@@ -17,7 +17,7 @@ export const Sidebar: React.FC = () => {
     if (id === 'simulate') {
       setSimulationActive(true);
     } else {
-      setView(id);
+      setView(id as any);
     }
   };
 
