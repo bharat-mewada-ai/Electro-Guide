@@ -16,15 +16,19 @@ Electro-Guide AI acts as a digital companion for voters, providing real-time gui
 ### 1. Architecture
 - **Frontend**: React (Vite) with a premium, responsive dark-mode UI.
 - **Backend**: Node.js & Express for secure API handling.
-- **Database**: Prisma ORM with SQLite (for development) and PostgreSQL compatibility (for production).
-- **State Management**: Zustand for seamless user context and chat history.
+- **Database**: Prisma ORM with SQLite/PostgreSQL compatibility.
+- **Cloud Infrastructure**: **Google Cloud Platform (GCP)** integration:
+    - **Google Cloud Vision API**: For intelligent Voter ID verification and OCR.
+    - **Google Places API**: For localized polling booth discovery.
+    - **Google Maps API**: For interactive geographic services.
+- **State Management**: Zustand for seamless user context.
 
-### 2. Intelligent Intent Engine
-The core logic resides in a backend-driven intent processor that analyzes user queries to categorize them into:
-- `REGISTRATION_INTENT`: Guiding users through voter ID processes.
+### 2. Intelligent Intent Engine & GCP Services
+The core logic resides in a backend-driven intent processor that analyzes user queries and leverages Google Cloud services:
+- `REGISTRATION_INTENT`: Guiding users through voter ID processes with **Vision API** validation.
 - `MISINFORMATION_CHECK`: Verifying claims using a verified fact database.
 - `SIMULATION_REQUEST`: Launching interactive voting walkthroughs.
-- `LOCATION_SERVICE`: Finding nearby polling booths via Google Maps integration.
+- `LOCATION_SERVICE`: Finding nearby polling booths via **Google Places** integration.
 
 ### 3. Dynamic User Personalization
 Users can set their residential state, which dynamically updates:

@@ -7,7 +7,22 @@ import { errorHandler } from './middleware/errorHandler';
 const app = express();
 
 // Security Middleware
-app.use(helmet());
+// Advanced Security Middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "https://*.tile.openstreetmap.org", "https://maps.gstatic.com"],
+      connectSrc: ["'self'", "https://*.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
+}));
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(',') || true,
   credentials: true
