@@ -25,7 +25,7 @@ export const CandidateComparison: React.FC = () => {
         const data = await fetchWithAuth(`/candidates?state=${userContext.location.state}`);
         setCandidates(data);
         setError(null);
-      } catch (err) {
+      } catch {
         setError('Failed to load candidates. Please try again later.');
       } finally {
         setLoading(false);

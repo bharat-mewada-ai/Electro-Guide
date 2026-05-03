@@ -31,8 +31,8 @@ export const RightPanel: React.FC = () => {
       await GoogleServices.setElectionReminder(userState);
       setReminderSet(true);
       setTimeout(() => setReminderSet(false), 5000);
-    } catch (e) {
-      console.error(e);
+    } catch (_e) {
+      console.error(_e);
     } finally {
       setIsReminderLoading(false);
     }
@@ -57,7 +57,7 @@ export const RightPanel: React.FC = () => {
       });
       const data = await res.json();
       setVerdict(data);
-    } catch (e) {
+    } catch {
       setVerdict({
         status: 'ERROR',
         color: '#ef4444',

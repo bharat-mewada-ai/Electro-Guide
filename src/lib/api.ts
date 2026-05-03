@@ -1,5 +1,9 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
+/**
+ * Custom Error class for API-related failures.
+ * Includes HTTP status code and descriptive message.
+ */
 export class ApiError extends Error {
   status: number;
   constructor(status: number, message: string) {
@@ -9,7 +13,17 @@ export class ApiError extends Error {
   }
 }
 
-export const fetchWithAuth = async <T = any>(endpoint: string, options: RequestInit = {}): Promise<T> => {
+/**
+ * Wrapper for the fetch API that automatically injects JWT tokens
+ * and handles anonymous registration for a seamless user experience.
+ * 
+ * @template T - Expected response type
+ * @param {string} endpoint - API endpoint (relative to BASE_URL)
+ * @param {RequestInit} options - Standard fetch options
+ * @returns {Promise<T>} - Decoded JSON response
+ * @throws {ApiError} - If the response is not OK
+ */
+export const fetchWithAuth = async <T = unknown>(endpoint: string, options: RequestInit = {}): Promise<T> => {
   let token = localStorage.getItem('token');
 
   // Auto-login/register an anonymous user if no token exists for seamless demo

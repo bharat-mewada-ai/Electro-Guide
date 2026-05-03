@@ -13,7 +13,7 @@ const navItems = [
 export const Sidebar: React.FC = () => {
   const { currentView, setView, setSimulationActive } = useAppStore();
 
-  const handleNav = (id: any) => {
+  const handleNav = (id: string) => {
     if (id === 'simulate') {
       setSimulationActive(true);
     } else {

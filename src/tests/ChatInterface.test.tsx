@@ -24,7 +24,7 @@ describe('ChatInterface', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (useAppStore as any).mockReturnValue({
+    vi.mocked(useAppStore).mockReturnValue({
       messages: [],
       addMessage: mockAddMessage,
       setIntent: mockSetIntent,

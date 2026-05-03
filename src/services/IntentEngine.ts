@@ -7,6 +7,13 @@ interface IntentResult {
   reasoning: string;
 }
 
+/**
+ * Analyzes user input to detect intent, confidence, and reasoning.
+ * Calls the backend AI processing engine.
+ * 
+ * @param {string} input - User's natural language query
+ * @returns {Promise<IntentResult>} - Detected intent and metadata
+ */
 export const detectIntent = async (input: string): Promise<IntentResult> => {
   try {
     const res = await fetchWithAuth('/chat/message', {
@@ -14,7 +21,7 @@ export const detectIntent = async (input: string): Promise<IntentResult> => {
       body: JSON.stringify({ message: input })
     });
     return res;
-  } catch (error) {
+  } catch {
     return {
       intent: 'GENERAL',
       confidence: 0,
@@ -23,6 +30,14 @@ export const detectIntent = async (input: string): Promise<IntentResult> => {
   }
 };
 
+/**
+ * Generates a localized AI response based on the detected intent and user context.
+ * 
+ * @param {Intent} intent - The detected user intent
+ * @param {string} userName - The name of the user for personalization
+ * @param {string} state - The user's residential state for localization
+ * @returns {string} - A personalized and localized response string
+ */
 export const getResponseForIntent = (intent: Intent, userName: string, state: string): string => {
   const responses: Record<Intent, string> = {
     'REGISTRATION_INTENT': `Namaste ${userName}! To register in ${state}, you need to fill Form 6. I've prepared a checklist of documents you'll need below.`,

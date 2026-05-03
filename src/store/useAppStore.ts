@@ -8,6 +8,19 @@ interface AppMessage extends Message {
   confidence?: number;
 }
 
+interface ProfileResponse {
+  name: string;
+  state: string;
+  email: string;
+}
+
+interface JourneyResponse {
+  stepId: string;
+  title: string;
+  description: string;
+  status: JourneyStep['status'];
+}
+
 interface AppState {
   userContext: UserContext;
   messages: AppMessage[];
@@ -62,8 +75,8 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   initializeStore: async () => {
     try {
-      const profile = await fetchWithAuth('/user/profile');
-      const journey = await fetchWithAuth('/user/journey');
+      const profile = await fetchWithAuth<ProfileResponse>('/user/profile');
+      const journey = await fetchWithAuth<JourneyResponse[]>('/user/journey');
       
       set((state) => ({
         userContext: { 
@@ -71,7 +84,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           name: profile.name, 
           location: { ...state.userContext.location, state: profile.state } 
         },
-        journeySteps: journey.length > 0 ? journey.map((j: any) => ({
+        journeySteps: journey.length > 0 ? journey.map((j) => ({
           id: j.stepId,
           title: j.title,
           description: j.description,

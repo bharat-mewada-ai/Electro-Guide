@@ -1,3 +1,5 @@
+import { Intent } from './intent';
+
 export * from './intent';
 
 export type UserType = 'Beginner' | 'General';
@@ -16,7 +18,7 @@ export interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  intent?: any; // Temporarily any to avoid import issues
+  intent?: Intent;
   timestamp: number;
 }
 
