@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { ChatInterface } from '../components/features/ChatInterface';
 import { useAppStore } from '../store/useAppStore';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
