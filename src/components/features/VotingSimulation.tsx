@@ -33,20 +33,25 @@ export const VotingSimulation: React.FC = () => {
   if (!isSimulationActive) return null;
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'rgba(0, 0, 0, 0.85)',
-      backdropFilter: 'blur(8px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000,
-      padding: '20px'
-    }}>
+    <div 
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="simulation-title"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0, 0, 0, 0.85)',
+        backdropFilter: 'blur(8px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000,
+        padding: '20px'
+      }}
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -62,6 +67,7 @@ export const VotingSimulation: React.FC = () => {
       >
         <button
           onClick={() => setSimulationActive(false)}
+          aria-label="Close simulation"
           style={{
             position: 'absolute',
             top: '20px',
@@ -76,24 +82,27 @@ export const VotingSimulation: React.FC = () => {
         <div style={{ height: '240px', background: '#000', overflow: 'hidden' }}>
           <img 
             src={simulationSteps[currentStep].image} 
-            alt={simulationSteps[currentStep].title}
+            alt={`Illustration for ${simulationSteps[currentStep].title}`}
             style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
           />
         </div>
 
         <div style={{ padding: '40px' }}>
-          <div style={{ 
-            fontSize: '0.75rem', 
-            fontWeight: 800, 
-            color: 'var(--bg-accent)', 
-            marginBottom: '8px',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em'
-          }}>
+          <div 
+            aria-hidden="true"
+            style={{ 
+              fontSize: '0.75rem', 
+              fontWeight: 800, 
+              color: 'var(--bg-accent)', 
+              marginBottom: '8px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em'
+            }}
+          >
             Step {currentStep + 1} of {simulationSteps.length}
           </div>
           
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '16px' }}>
+          <h2 id="simulation-title" style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '16px' }}>
             {simulationSteps[currentStep].title}
           </h2>
           
@@ -111,6 +120,7 @@ export const VotingSimulation: React.FC = () => {
             <button
               disabled={currentStep === 0}
               onClick={() => setCurrentStep(prev => prev - 1)}
+              aria-label="Previous step"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -119,7 +129,7 @@ export const VotingSimulation: React.FC = () => {
                 fontWeight: 600
               }}
             >
-              <ArrowLeft size={20} />
+              <ArrowLeft size={20} aria-hidden="true" />
               Back
             </button>
 
@@ -131,6 +141,7 @@ export const VotingSimulation: React.FC = () => {
                   setCurrentStep(prev => prev + 1);
                 }
               }}
+              aria-label={currentStep === simulationSteps.length - 1 ? "Finish simulation" : "Next step"}
               style={{
                 background: 'var(--bg-accent)',
                 color: 'white',
@@ -145,13 +156,13 @@ export const VotingSimulation: React.FC = () => {
             >
               {currentStep === simulationSteps.length - 1 ? (
                 <>
-                  <span>Finish Simulation</span>
-                  <CheckCircle size={20} />
+                  <span>Finish</span>
+                  <CheckCircle size={20} aria-hidden="true" />
                 </>
               ) : (
                 <>
                   <span>Next Step</span>
-                  <ArrowRight size={20} />
+                  <ArrowRight size={20} aria-hidden="true" />
                 </>
               )}
             </button>
@@ -159,7 +170,14 @@ export const VotingSimulation: React.FC = () => {
         </div>
 
         {/* Progress Bar */}
-        <div style={{ height: '4px', background: 'var(--border-subtle)', width: '100%' }}>
+        <div 
+          role="progressbar"
+          aria-valuenow={currentStep + 1}
+          aria-valuemin={1}
+          aria-valuemax={simulationSteps.length}
+          aria-label="Simulation progress"
+          style={{ height: '4px', background: 'var(--border-subtle)', width: '100%' }}
+        >
           <motion.div 
             animate={{ width: `${((currentStep + 1) / simulationSteps.length) * 100}%` }}
             style={{ height: '100%', background: 'var(--bg-accent)' }}

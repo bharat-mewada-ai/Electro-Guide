@@ -57,8 +57,9 @@ export const ChatInterface: React.FC = () => {
       <div 
         ref={scrollRef}
         role="log"
-        aria-label="Chat messages"
+        aria-label="Chat history"
         aria-live="polite"
+        aria-relevant="additions"
         style={{ 
           flex: 1, 
           padding: '24px', 
@@ -74,6 +75,8 @@ export const ChatInterface: React.FC = () => {
               key={msg.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
+              role="status"
+              aria-live={msg.role === 'assistant' ? 'polite' : 'off'}
               style={{
                 display: 'flex',
                 gap: '12px',
@@ -125,7 +128,7 @@ export const ChatInterface: React.FC = () => {
                 
                 <div 
                   role="article"
-                  aria-label={`${msg.role} message`}
+                  aria-label={`${msg.role} message at ${new Date().toLocaleTimeString()}`}
                   style={{
                     padding: '16px',
                     borderRadius: msg.role === 'user' ? '20px 4px 20px 20px' : '4px 20px 20px 20px',
@@ -156,7 +159,11 @@ export const ChatInterface: React.FC = () => {
                           gap: '6px', 
                           fontSize: '0.75rem', 
                           color: 'var(--bg-accent)',
-                          fontWeight: 700
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          background: 'none',
+                          border: 'none',
+                          padding: '4px 0'
                         }}
                       >
                         <BrainCircuit size={12} aria-hidden="true" />
@@ -205,7 +212,7 @@ export const ChatInterface: React.FC = () => {
         background: 'rgba(0,0,0,0.1)' 
       }}>
         <div 
-          role="form"
+          role="search"
           aria-label="Ask ElectiGuide"
           style={{ 
             display: 'flex', 
@@ -222,14 +229,15 @@ export const ChatInterface: React.FC = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            aria-label="Message text"
-            placeholder="Type your question (e.g. 'How to register' or 'EVM hacking rumors')"
+            aria-label="Question input"
+            placeholder="Type your question (e.g. 'How to register')"
             style={{
               flex: 1,
               background: 'transparent',
               border: 'none',
               color: 'var(--text-primary)',
-              fontSize: '0.9375rem'
+              fontSize: '0.9375rem',
+              outline: 'none'
             }}
           />
           <button
@@ -243,8 +251,13 @@ export const ChatInterface: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              fontWeight: 700
+              fontWeight: 700,
+              cursor: 'pointer',
+              border: 'none',
+              transition: 'transform 0.2s'
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
           >
             <span>Ask</span>
             <Send size={16} aria-hidden="true" />

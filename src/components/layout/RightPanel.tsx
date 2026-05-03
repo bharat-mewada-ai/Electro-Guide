@@ -1,25 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldAlert, MapPin, Calendar, ExternalLink, Info, Clock, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
 import { ELECTION_DATES } from '../../constants';
-import { GoogleCalendarService, GoogleMapsService } from '../../services/GoogleServices';
+import { GoogleServices } from '../../services/google';
+import type { PollingBooth } from '../../services/google';
+import { BoothMap } from '../features/BoothMap';
 
 export const RightPanel: React.FC = () => {
   const { userContext, reminderSet, setReminderSet } = useAppStore();
   const [misinfoInput, setMisinfoInput] = useState('');
   const [verdict, setVerdict] = useState<{status: string, color: string, explanation: string} | null>(null);
   const [isReminderLoading, setIsReminderLoading] = useState(false);
+  const [booth, setBooth] = useState<PollingBooth | null>(null);
 
   const userState = userContext.location.state;
   const electionInfo = ELECTION_DATES.find(d => d.state === userState) || ELECTION_DATES[0];
 
+  useEffect(() => {
+    const loadBooth = async () => {
+      const data = await GoogleServices.getNearestBooth(userState);
+      setBooth(data);
+    };
+    loadBooth();
+  }, [userState]);
+
   const handleSetReminder = async () => {
     setIsReminderLoading(true);
     try {
-      await GoogleCalendarService.createElectionReminder(userState);
+      await GoogleServices.setElectionReminder(userState);
       setReminderSet(true);
-      setTimeout(() => setReminderSet(false), 5000); // Reset UI after 5s
+      setTimeout(() => setReminderSet(false), 5000);
     } catch (e) {
       console.error(e);
     } finally {
@@ -28,7 +39,7 @@ export const RightPanel: React.FC = () => {
   };
 
   const handleOpenMaps = () => {
-    const link = GoogleMapsService.getBoothLink(userState);
+    const link = GoogleServices.getExternalMapLink(userState);
     window.open(link, '_blank');
   };
 
@@ -116,6 +127,20 @@ export const RightPanel: React.FC = () => {
           </motion.div>
         )}
       </section>
+
+      {/* Live Map */}
+      {booth && (
+        <section className="glass" style={{ padding: '20px', borderRadius: 'var(--radius-xl)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <MapPin size={20} color="var(--bg-accent)" />
+            <h3 style={{ fontSize: '1rem', fontWeight: 600 }}>Nearest Booth</h3>
+          </div>
+          <BoothMap lat={booth.lat} lng={booth.lng} address={booth.address} />
+          <div style={{ marginTop: '12px', fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+            {booth.address}
+          </div>
+        </section>
+      )}
 
       {/* Quick Tools */}
       <section className="glass" style={{ padding: '20px', borderRadius: 'var(--radius-xl)' }}>
